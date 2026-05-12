@@ -1,0 +1,61 @@
+OUTPUT_COLUMNS = [
+    "Filename",
+    "Vendor",
+    "Reference PO",
+    "Invoice No",
+    "Invoice Date",
+    "Due Date",
+    "Tax Invoice No",
+    "PPN",
+    "Total Transaction",
+    "Deskripsi",
+]
+
+VENDOR_MAP = {
+    "INDOINTERNET": "PT. Indointernet",
+    "PT. INDOINTERNET": "PT. Indointernet",
+    "PT. IndoInternet": "PT. Indointernet",
+    "CENDIKIA GLOBAL SOLUSI": "PT. Cendikia Global Solusi",
+    "PT. CENDIKIA GLOBAL SOLUSI": "PT. Cendikia Global Solusi",
+    "PT. Cendikia Global Solusi": "PT. Cendikia Global Solusi",
+    "FIBER MEDIA INDONESIA": "PT. Fiber Media Indonesia",
+    "PT. FIBER MEDIA INDONESIA": "PT. Fiber Media Indonesia",
+    "PT. Fiber Media Indonesia": "PT. Fiber Media Indonesia",
+    "KAWAN LAMA SEJAHTERA": "PT. Kawan Lama Sejahtera",
+    "PT. KAWAN LAMA SEJAHTERA": "PT. Kawan Lama Sejahtera",
+    "PT. Kawan Lama Sejahtera": "PT. Kawan Lama Sejahtera",
+    "MELVAR PRIMA SOLUSI": "PT. Melvar Prima Solusi",
+    "PT. MELVAR PRIMA SOLUSI": "PT. Melvar Prima Solusi",
+    "PT. Melvar Prima Solusi": "PT. Melvar Prima Solusi",
+    "MAXINDO MITRA SOLUSI": "PT. Maxindo Mitra Solusi",
+    "PT. MAXINDO MITRA SOLUSI": "PT. Maxindo Mitra Solusi",
+    "PT. Maxindo Mitra Solusi": "PT. Maxindo Mitra Solusi",
+    "PT. Iforte Solusi Infotek": "PT. Iforte Solusi Infotek",
+    "PT. BIT TEKNOLOGI NUSANTARA": "PT. Bit Teknologi Nusantara",
+    "PT. Bit Teknologi Nusantara": "PT. Bit Teknologi Nusantara",
+    "PT. Data Utama Dinamika": "PT. Data Utama Dinamika",
+}
+
+VENDOR_PO_MAP = {
+    "PT. Indointernet": "LK000011",
+    "PT. Cendikia Global Solusi": "TL000013",
+    "PT. Fiber Media Indonesia": "LK000086",
+    "PT. Kawan Lama Sejahtera": "SP000138",
+    "PT. Melvar Prima Solusi": "SP000445",
+    "PT. Maxindo Mitra Solusi": "SP000400",
+    "PT. Iforte Solusi Infotek": "TL000008",
+    "PT. Bit Teknologi Nusantara": "LK000043",
+    "PT. Data Utama Dinamika": "LK000043",
+}
+
+FILENAME_VENDOR_PATTERNS = [
+    (r"PT\.?\s*Indointernet", "PT. Indointernet"),
+    (r"PT\.?\s*Cendikia\s*Global\s*Solusi", "PT. Cendikia Global Solusi"),
+    (r"PT\.?\s*Fiber\s*Media\s*Indonesia", "PT. Fiber Media Indonesia"),
+    (r"PT\.?\s*Kawan\s*Lama\s*Sejahtera", "PT. Kawan Lama Sejahtera"),
+    (r"PT\.?\s*Melvar\s*Prima\s*Solusi", "PT. Melvar Prima Solusi"),
+    (r"PT\.?\s*Maxindo\s*Mitra\s*Solusi", "PT. Maxindo Mitra Solusi"),
+    (r"PT\.?\s*Iforte\s*Solusi\s*Infotek", "PT. Iforte Solusi Infotek"),
+    (r"PT\.?\s*Bit\s*Teknologi\s*Nusantara", "PT. Bit Teknologi Nusantara"),
+    (r"PT\.?\s*Data\s*Utama\s*Dinamika", "PT. Data Utama Dinamika"),
+]
