@@ -1,6 +1,6 @@
 import os
 from extraction.invoice_info import extract_invoice_no, extract_invoice_date
-from extraction.tax_info import extract_tax_invoice_no, extract_dpp, extract_ppn, extract_vendor_name, extract_vendor_npwp, extract_buyer_npwp
+from extraction.tax_info import extract_tax_invoice_no, extract_total_transaction, extract_dpp, extract_ppn, extract_vendor_name, extract_vendor_npwp, extract_buyer_npwp
 from extraction.description import extract_description
 from processors.pdf_scanner import find_faktur_pajak_page, extract_fp_text, render_page_to_image
 from utils.clean_text import clean_text
@@ -18,6 +18,7 @@ def extract_all_fields(text, filename="", use_ocr_fallback=False):
 
     invoice_date = extract_invoice_date(cleaned)
     tax_invoice_no = extract_tax_invoice_no(cleaned)
+    total_transaction = extract_total_transaction(cleaned)
     dpp = extract_dpp(cleaned)
     ppn = extract_ppn(cleaned, dpp)
     description = extract_description(text)
@@ -45,7 +46,7 @@ def extract_all_fields(text, filename="", use_ocr_fallback=False):
         "Due Date": "NOT FOUND",
         "Tax Invoice No": tax_invoice_no,
         "PPN": format_currency(ppn),
-        "Total Transaction": format_currency(dpp),
+        "Total Transaction": format_currency(total_transaction),
         "Deskripsi": description,
         "_vendor_npwp": vendor_npwp,
         "_buyer_npwp": extract_buyer_npwp(cleaned),

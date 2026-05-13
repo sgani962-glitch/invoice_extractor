@@ -233,6 +233,17 @@ def extract_tax_invoice_no(text):
     return "NOT FOUND"
 
 
+def extract_total_transaction(text):
+    match = re.search(r"Harga\s+Jual\s*/\s*Penggantian\s*/\s*Uang\s+Muka\s*/\s*Termin\s+([\d.,]+)", text, re.IGNORECASE)
+    if match:
+        return clean_number(match.group(1))
+    all_nums = re.findall(r"([\d.]{1,3}(?:\.\d{3}){2,})", text)
+    candidates = [clean_number(n) for n in all_nums if clean_number(n) > 100_000]
+    if candidates:
+        return max(candidates)
+    return 0.0
+
+
 def extract_dpp(text):
     match = re.search(r"Dasar\s+Pengenaan\s+Pajak\s+([\d.,]+)", text, re.IGNORECASE)
     if match:
@@ -248,9 +259,8 @@ def extract_ppn(text, dpp=0.0):
     ppn_match = re.search(r"Jumlah\s+PPN\s*(?:\(Pajak\s*Pertambahan\s*Nilai\))?\s*([\d.,]+)", text, re.IGNORECASE)
     if ppn_match:
         return clean_number(ppn_match.group(1))
-
     if dpp > 0:
-        harga_match = re.search(r"Harga\s+Jual\s*/\s*Penggantian\s*/\s*Uang\s*Muka\s*/\s*Termin\s+([\d.,]+)", text, re.IGNORECASE)
+        harga_match = re.search(r"Harga\s+Jual\s*/\s*Penggantian\s*/\s*Uang\s+Muka\s*/\s*Termin\s+([\d.,]+)", text, re.IGNORECASE)
         if harga_match:
             harga = clean_number(harga_match.group(1))
             if harga > dpp:
@@ -258,7 +268,6 @@ def extract_ppn(text, dpp=0.0):
         ppn_calc = round(dpp * 0.11)
         if abs(ppn_calc - (dpp * 0.11)) < (dpp * 0.02):
             return ppn_calc
-
     return 0.0
 
 
@@ -453,6 +462,7 @@ def extract_all_fields(text, filename="", use_ocr_fallback=False):
 
     invoice_date = extract_invoice_date(cleaned)
     tax_invoice_no = extract_tax_invoice_no(cleaned)
+    total_transaction = extract_total_transaction(cleaned)
     dpp = extract_dpp(cleaned)
     ppn = extract_ppn(cleaned, dpp)
     description = extract_description(text)
@@ -480,7 +490,7 @@ def extract_all_fields(text, filename="", use_ocr_fallback=False):
         "Due Date": "NOT FOUND",
         "Tax Invoice No": tax_invoice_no,
         "PPN": format_currency(ppn),
-        "Total Transaction": format_currency(dpp),
+        "Total Transaction": format_currency(total_transaction),
         "Deskripsi": description,
         "_vendor_npwp": vendor_npwp,
         "_buyer_npwp": extract_buyer_npwp(cleaned),

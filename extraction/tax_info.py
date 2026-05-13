@@ -9,6 +9,17 @@ def extract_tax_invoice_no(text):
     return "NOT FOUND"
 
 
+def extract_total_transaction(text):
+    match = re.search(r"Harga\s+Jual\s*/\s*Penggantian\s*/\s*Uang\s+Muka\s*/\s*Termin\s+([\d.,]+)", text, re.IGNORECASE)
+    if match:
+        return clean_number(match.group(1))
+    all_nums = re.findall(r"([\d.]{1,3}(?:\.\d{3}){2,})", text)
+    candidates = [clean_number(n) for n in all_nums if clean_number(n) > 100_000]
+    if candidates:
+        return max(candidates)
+    return 0.0
+
+
 def extract_dpp(text):
     match = re.search(r"Dasar\s+Pengenaan\s+Pajak\s+([\d.,]+)", text, re.IGNORECASE)
     if match:
